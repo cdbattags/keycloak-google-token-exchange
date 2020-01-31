@@ -14,7 +14,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@google/clasp": "^2.1.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "babel-loader": "^8.0.6",
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.4.2",
