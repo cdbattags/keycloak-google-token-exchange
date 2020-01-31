@@ -1,0 +1,30 @@
+{
+  "name": "keycloak-auto-login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "./cmds/start-webapp.sh",
+    "start:build": "./node_modules/gulp/bin/gulp.js --gulpfile build/gulp --cwd \"./\" start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@google/clasp": "^2.1.0",
+    "axios": "^0.18.0",
+    "babel-loader": "^8.0.6",
+    "gulp": "^4.0.2",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-pug": "^4.0.1",
+    "keycloak-js": "^6.0.1",
+    "rootpath": "^0.1.2",
+    "webpack": "^4.32.0",
+    "webpack-stream": "^5.2.1"
+  },
+  "dependencies": {
+    "qs": "^6.7.0"
+  }
+}

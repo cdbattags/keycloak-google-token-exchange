@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+
+</head>
+
+<body>
+    <h1>Click the button to log in to Amplify</h1>
+    <button onclick='login()'>Log in</button>
+    <div id="status"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/qs/dist/qs.js"></script>
+
+    <script>
+        function errorThings(e) {
+            console.log('error', e)
+        }
+
+        /**
+         * Runs a server-side function to insert the translated text into the document
+         * at the user's cursor or selection.
+         */
+        function login() {
+            console.log('logging in');
+
+            var statusElement = document.getElementById("status");
+            
+            statusElement.innerHTML = "";
+            
+            google.script.run
+                .withSuccessHandler(
+                    function(gAccessToken) {
+                        console.log('google token', gAccessToken)
+
+                        var requestBody = {
+                            client_id: "newxp-addon",
+                            grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
+                            subject_token_type: "urn:ietf:params:oauth:token-type:access_token",
+                            requested_token_type: "urn:ietf:params:oauth:token-type:refresh_token",
+                            subject_token: gAccessToken,
+                            subject_issuer: "google"
+                        }
+
+                        axios
+                            .post(
+                                'https://my-devci.poc.learning.amplify.com/auth/realms/Amplify/protocol/openid-connect/token',
+                                Qs.stringify(requestBody),
+                            )
+                            .then(function(response) {
+                                var amplifyToken = response.data.access_token
+
+                                console.log('amplify token', amplifyToken)
+                                
+                                axios({
+                                    mthod: 'get',
+                                    url: 'https://api-devci.poc.learning.amplify.com/retail/api/licensing/my/class/assets',
+                                    headers: {
+                                        'Authorization': 'Bearer ' + amplifyToken,
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json'
+                                    }
+                                })
+                                    .then(function(response) {
+                                        console.log('raw response', response)
+                                        console.log('entitlements', JSON.stringify(response.data, null, 2))
+                                    })
+                                    .catch(errorThings)
+                            })
+                            .catch(errorThings)
+                    }
+                )
+                .withFailureHandler(
+                    function(error) {
+                        console.log(error)
+                    })
+                .login();
+        }
+    </script>
+
+</body>
+
+</html>

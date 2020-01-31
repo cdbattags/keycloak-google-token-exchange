@@ -1,0 +1,18 @@
+doctype html
+html
+    head
+    body
+        div(style="display: flex; flex-direction: column;")
+            input#g-access-token(type="text" placeholder="Google access token")
+            button#exchange-g-access-token exchange token
+            br
+            textarea#google-token none
+            br
+            textarea#amplify-token none
+            //- button#get-entitlements get entitlements
+            br
+            div entitlements
+            textarea#entitlements
+
+    #footer
+        script(src="./bundle.js")
